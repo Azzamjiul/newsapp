@@ -18,6 +18,7 @@ export async function startNewsUrlsConsumer() {
         if (url.includes('abcnews.go.com')) {
           const newsData = await abcNewsScrapper.extractFromUrl(url);
           await newsService.create(newsData);
+          console.log('✅ News data saved:', newsData.title);
         } else {
           console.error('Unsupported news source:', url);
         }
