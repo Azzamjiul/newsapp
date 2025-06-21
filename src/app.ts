@@ -33,6 +33,9 @@ app.use('/api/users', userRouter);
 app.use('/api/news', newsRouter);
 app.use('/api/scrapper', scrapperRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api/docs.json', (req, res) => {
+  res.json(swaggerSpec);
+});
 
 console.log('DB Connection Info:', config.db);
 

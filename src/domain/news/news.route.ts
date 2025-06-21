@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { listNews, getNews, updateNews, deleteNews } from './news.controller';
+import { listNews, getNews } from './news.controller';
 import { validateBody } from '../../middleware/validateBody';
 import { createNewsSchema, updateNewsSchema } from './news.zod';
 
@@ -13,22 +13,32 @@ import { createNewsSchema, updateNewsSchema } from './news.zod';
  *         id:
  *           type: integer
  *           example: 1
+ *         imageUrl:
+ *           type: string
+ *           example: "https://example.com/image.jpg"
  *         title:
  *           type: string
  *           example: "Breaking News Title"
+ *         description:
+ *           type: string
+ *           example: "Short summary of the news."
  *         content:
  *           type: string
  *           example: "This is the content of the news."
- *         author:
+ *         publisherId:
+ *           type: integer
+ *           example: 123
+ *         publisherUrl:
  *           type: string
- *           example: "John Doe"
- *         publishedAt:
+ *           example: "https://publisher.com/news/123"
+ *         createdAt:
  *           type: string
  *           format: date-time
  *           example: "2025-06-21T12:00:00Z"
- *         source:
+ *         importedAt:
  *           type: string
- *           example: "BBC"
+ *           format: date-time
+ *           example: "2025-06-21T12:05:00Z"
  */
 
 const router = Router();
@@ -67,46 +77,6 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/News'
- *       404:
- *         description: News not found
- *   put:
- *     summary: Update news by ID
- *     tags: [News]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: News ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/News'
- *     responses:
- *       200:
- *         description: News updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/News'
- *       404:
- *         description: News not found
- *   delete:
- *     summary: Delete news by ID
- *     tags: [News]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: News ID
- *     responses:
- *       200:
- *         description: News deleted
  *       404:
  *         description: News not found
  */
