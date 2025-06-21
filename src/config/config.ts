@@ -13,6 +13,7 @@ interface AppConfig {
   port: number;
   db: DatabaseConfig;
   jwtSecret: string;
+  rabbitmqUrl?: string;
 }
 
 export const config: AppConfig = {
@@ -25,6 +26,7 @@ export const config: AppConfig = {
     name: process.env.DB_NAME || 'newsarc',
   },
   jwtSecret: process.env.JWT_SECRET || 'supersecret',
+  rabbitmqUrl: process.env.RABBITMQ_URL || 'amqp://localhost',
 };
 
-export default config; 
+export default config;

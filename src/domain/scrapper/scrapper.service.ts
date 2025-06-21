@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { parseStringPromise } from 'xml2js';
+import { rabbitMQService } from '../../infrastructure/rabbitmq.service';
 
 export class ScrapperService {
   async scrapeXml(xmlUrl: string) {
@@ -17,7 +18,7 @@ export class ScrapperService {
     return 'Unsupported XML format';
   }
 
-  handleAbcNews(parsed: any) {
+  async handleAbcNews(parsed: any) {
     const items = parsed?.rss?.channel?.item;
     if (!items) {
       throw new Error('No items found in XML');
@@ -28,6 +29,16 @@ export class ScrapperService {
     const urls = itemArray
       .map((item: any) => item.link?._ || item.link)
       .filter((url: string | undefined) => !!url);
+
+    // publish each url into rabbit mq
+    try {
+      for (const url of urls) {
+        await rabbitMQService.sendToQueue('news_urls', url);
+      }
+    } catch (err) {
+      console.error('Failed to publish to RabbitMQ:', err);
+    }
+
     return urls;
   }
 }
