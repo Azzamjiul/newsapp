@@ -8,6 +8,7 @@ export interface NewsDTO {
   publisherId: number;
   publisherUrl: string;
   createdAt?: Date;
+  createdAtUnix?: number;
   importedAt?: Date;
   author?: string;
   publishedAt?: Date;
@@ -22,6 +23,7 @@ export interface CreateNewsDTO {
   publisherId: number;
   publisherUrl: string;
   importedAt: Date;
+  createdAtUnix?: number;
   author?: string;
   publishedAt?: Date;
   source?: string;

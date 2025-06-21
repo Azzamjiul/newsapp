@@ -10,11 +10,11 @@ export class NewsService implements INewsService {
       where.title = { [Op.iLike]: `%${search}%` };
     }
     if (cursor) {
-      where.id = { [Op.lt]: Number(cursor) };
+      where.createdAtUnix = { [Op.lt]: Number(cursor) };
     }
     const news = await News.findAll({
       where,
-      order: [['id', 'DESC']],
+      order: [['createdAtUnix', 'DESC']],
       limit,
     });
     const nextCursor = news.length > 0 ? news[news.length - 1].id : null;

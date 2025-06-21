@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, CreatedAt, UpdatedAt, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
 
 export interface INews {
   id?: number;
@@ -10,6 +10,7 @@ export interface INews {
   publisherUrl: string;
   createdAt: Date;
   importedAt: Date;
+  createdAtUnix: number;
 }
 
 @Table({ tableName: 'news' })
@@ -40,6 +41,9 @@ export class News extends Model<INews> {
   @Column({ field: 'imported_at', type: DataType.DATE, allowNull: false })
   importedAt!: Date;
 
+  @Column({ field: 'created_at_unix', type: DataType.BIGINT, allowNull: false })
+  createdAtUnix!: number;
+
   @CreatedAt
   @Column({ field: 'created_at', type: DataType.DATE })
   createdAt!: Date;
@@ -47,4 +51,16 @@ export class News extends Model<INews> {
   @UpdatedAt
   @Column({ field: 'updated_at', type: DataType.DATE })
   updatedAt!: Date;
+
+  @BeforeCreate
+  static setCreatedAtUnix(instance: News) {
+    instance.createdAtUnix = Math.floor((instance.createdAt ? instance.createdAt.getTime() : Date.now()) / 1000);
+  }
+
+  @BeforeUpdate
+  static updateCreatedAtUnix(instance: News) {
+    if (instance.changed('createdAt')) {
+      instance.createdAtUnix = Math.floor(instance.createdAt.getTime() / 1000);
+    }
+  }
 }

@@ -205,6 +205,7 @@ export class AbcNewsScrapperService {
             publisherUrl: url,
             importedAt: new Date(),
             createdAt: story.metadata?.timestamp ? new Date(story.metadata.timestamp) : new Date(),
+            createdAtUnix: story.metadata?.timestamp ? Math.floor(new Date(story.metadata.timestamp).getTime() / 1000) : Math.floor(Date.now() / 1000),
           };
         }
       } catch (e) {

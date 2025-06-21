@@ -39,6 +39,9 @@ import { createNewsSchema, updateNewsSchema } from './news.zod';
  *           type: string
  *           format: date-time
  *           example: "2025-06-21T12:05:00Z"
+ *         createdAtUnix:
+ *           type: integer
+ *           example: 1718966400
  */
 
 const router = Router();
