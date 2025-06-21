@@ -35,16 +35,16 @@ export class UserService {
     return { id: user.id, name: user.name, email: user.email };
   }
 
-  async update(id: number, updates: { name?: string; email?: string; password?: string }) {
+  async update(id: number, updates: { name?: string; email?: string; password?: string; notificationsEnabled?: boolean }) {
     const user = await User.findByPk(id);
     if (!user) {
       throw new Error('User not found.');
     }
-    if (updates.name) user.name = updates.name;
-    if (updates.email) user.email = updates.email;
-    if (updates.password) user.password = await bcrypt.hash(updates.password, 10);
-    await user.save();
-    return { id: user.id, name: user.name, email: user.email };
+    if (updates.password) {
+      updates.password = await bcrypt.hash(updates.password, 10);
+    }
+    await user.update(updates);
+    return { id: user.id, name: user.name, email: user.email, notificationsEnabled: user.notificationsEnabled };
   }
 
   async remove(id: number) {
