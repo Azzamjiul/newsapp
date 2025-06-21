@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import { News } from './news.model';
 
 export class NewsService {
-  static async list(search: string, cursor: string | undefined, limit: number) {
+  async list(search: string, cursor: string | undefined, limit: number) {
     const where: any = {};
     if (search) {
       where.title = { [Op.iLike]: `%${search}%` };
@@ -19,18 +19,18 @@ export class NewsService {
     return { data: news, nextCursor };
   }
 
-  static async get(id: string) {
+  async get(id: string) {
     return News.findByPk(id);
   }
 
-  static async update(id: string, body: any) {
+  async update(id: string, body: any) {
     const news = await News.findByPk(id);
     if (!news) return null;
     await news.update(body);
     return news;
   }
 
-  static async delete(id: string) {
+  async delete(id: string) {
     const news = await News.findByPk(id);
     if (!news) return null;
     await news.destroy();
