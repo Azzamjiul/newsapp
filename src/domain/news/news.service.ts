@@ -37,7 +37,13 @@ export class NewsService {
     return true;
   }
 
-  async create(newsData: Omit<INews, 'id'>) {
-    return News.create(newsData);
+  async upsert(newsData: Omit<INews, 'id'>) {
+    const existing = await News.findOne({ where: { publisherUrl: newsData.publisherUrl } });
+    if (existing) {
+      await existing.update(newsData);
+      return existing;
+    } else {
+      return News.create(newsData);
+    }
   }
 }
