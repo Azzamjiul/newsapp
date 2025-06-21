@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { News } from './news.model';
+import { News, INews } from './news.model';
 
 export class NewsService {
   async list(search: string, cursor: string | undefined, limit: number) {
@@ -35,5 +35,9 @@ export class NewsService {
     if (!news) return null;
     await news.destroy();
     return true;
+  }
+
+  async create(newsData: Omit<INews, 'id'>) {
+    return News.create(newsData);
   }
 }
