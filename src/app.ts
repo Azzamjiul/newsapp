@@ -19,7 +19,7 @@ const swaggerOptions = {
       { url: 'http://localhost:4000' }
     ],
   },
-  apis: ['./domain/user/*.ts'],
+  apis: ['./src/domain/user/*.ts', './src/domain/news/*.ts', './src/domain/scrapper/*.ts'],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

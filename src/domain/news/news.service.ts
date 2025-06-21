@@ -1,8 +1,10 @@
-import { Op } from 'sequelize';
+import { Op, Optional } from 'sequelize';
 import { News, INews } from './news.model';
+import { INewsService } from './news.service.interface';
+import { NewsDTO, CreateNewsDTO, UpdateNewsDTO } from './news.dto';
 
-export class NewsService {
-  async list(search: string, cursor: string | undefined, limit: number) {
+export class NewsService implements INewsService {
+  async list(search: string, cursor: string | undefined, limit: number): Promise<NewsDTO[]> {
     const where: any = {};
     if (search) {
       where.title = { [Op.iLike]: `%${search}%` };
@@ -16,25 +18,31 @@ export class NewsService {
       limit,
     });
     const nextCursor = news.length > 0 ? news[news.length - 1].id : null;
-    return { data: news, nextCursor };
+    return news.map(n => n.toJSON() as NewsDTO);
   }
 
-  async get(id: string) {
-    return News.findByPk(id);
+  async get(id: string): Promise<NewsDTO | null> {
+    const news = await News.findByPk(id);
+    return news ? (news.toJSON() as NewsDTO) : null;
   }
 
-  async update(id: string, body: any) {
+  async update(id: string, body: UpdateNewsDTO): Promise<NewsDTO | null> {
     const news = await News.findByPk(id);
     if (!news) return null;
     await news.update(body);
-    return news;
+    return news.toJSON() as NewsDTO;
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<boolean> {
     const news = await News.findByPk(id);
-    if (!news) return null;
+    if (!news) return false;
     await news.destroy();
     return true;
+  }
+
+  async create(data: CreateNewsDTO): Promise<NewsDTO> {
+    const news = await News.create(data as Optional<INews, "id">);
+    return news.toJSON() as NewsDTO;
   }
 
   async upsert(newsData: Omit<INews, 'id'>) {
