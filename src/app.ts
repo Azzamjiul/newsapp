@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import userRouter from './domain/user/user.route';
 import newsRouter from './domain/news/news.route';
+import scrapperRouter from './domain/scrapper/scrapper.route';
 import { config, sequelize } from './config';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -30,6 +31,7 @@ app.use(express.json());
 
 app.use('/api/users', userRouter);
 app.use('/api/news', newsRouter);
+app.use('/api/scrapper', scrapperRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 console.log('DB Connection Info:', config.db);
