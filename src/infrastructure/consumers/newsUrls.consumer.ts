@@ -17,6 +17,12 @@ export async function startNewsUrlsConsumer() {
       try {
         if (url.includes('abcnews.go.com')) {
           const newsData = await abcNewsScrapper.extractFromUrl(url);
+          if(newsData.imageUrl == '') {
+            console.warn('No image found, skipping news item:', url);
+            channel.ack(msg); // Acknowledge the message even if no image found
+            return;
+          }
+          
           const result = await newsService.upsert(newsData);
           console.log('✅ News data saved:', result.id);
         } else {
