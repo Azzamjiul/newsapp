@@ -17,9 +17,11 @@ export async function startNewsUrlsConsumer() {
       try {
         if (url.includes('abcnews.go.com')) {
           const newsData = await abcNewsScrapper.extractFromUrl(url);
-          if(newsData.imageUrl == '') {
-            console.warn('No image found, skipping news item:', url);
-            channel.ack(msg); // Acknowledge the message even if no image found
+          console.log('👀 News data:', newsData);
+
+          if (!newsData || Object.keys(newsData).length === 0 || newsData.imageUrl === '' || !newsData.publisherUrl) {
+            console.warn('🚮 No valid news data found, skipping news item:', url);
+            channel.ack(msg); // Acknowledge the message even if no image found or invalid data
             return;
           }
           
@@ -29,9 +31,9 @@ export async function startNewsUrlsConsumer() {
           console.error('Unsupported news source:', url);
         }
         channel.ack(msg);
-      } catch (err) {
-        console.error('Error processing URL:', url, err);
-        channel.nack(msg, false, true); // Requeue the message
+      } catch (err: any) {
+        console.error('❌ Error processing URL:', url, err.message);
+        channel.nack(msg, false, true); // Requeue the message for other errors
       } 
     }
   });

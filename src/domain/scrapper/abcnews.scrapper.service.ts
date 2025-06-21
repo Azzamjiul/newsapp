@@ -160,7 +160,10 @@ export interface AbcNewsStory {
 export class AbcNewsScrapperService {
   async extractFromUrl(url: string): Promise<Omit<INews, 'id'>> {
     const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch news HTML');
+    if (!response.ok) {
+      console.error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+      return {} as Omit<INews, 'id'>;
+    }
     const html = await response.text();
     return this.extractFromHtml(html, url);
   }
@@ -205,10 +208,10 @@ export class AbcNewsScrapperService {
           };
         }
       } catch (e) {
-        console.error('Failed to parse __abcnews__ JSON:', e);
-        throw new Error('Failed to parse news JSON from HTML');
+        console.error('❌ Failed to parse __abcnews__ JSON:');
+        throw new Error('❌ Failed to parse news JSON from HTML');
       }
     }
-    throw new Error('Failed to extract news from HTML');
+    return {} as Omit<INews, 'id'>;
   }
 }
