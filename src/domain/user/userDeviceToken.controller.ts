@@ -19,7 +19,7 @@ const sendNotificationSchema = z.object({
 
 /**
  * @swagger
- * /api/users/notify:
+ * /api/users/device-tokens/notify:
  *   post:
  *     summary: Send push notification to a user
  *     tags:
