@@ -17,7 +17,7 @@ export async function startNewsUrlsConsumer() {
       try {
         if (url.includes('abcnews.go.com')) {
           const newsData = await abcNewsScrapper.extractFromUrl(url);
-          console.log('👀 News data:', newsData);
+          // console.log('👀 News data:', newsData);
 
           if (!newsData || Object.keys(newsData).length === 0 || newsData.imageUrl === '' || !newsData.publisherUrl) {
             console.warn('🚮 No valid news data found, skipping news item:', url);
