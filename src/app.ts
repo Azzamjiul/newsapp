@@ -21,12 +21,12 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Newsarc API',
+      title: 'Newsapp API',
       version: '1.0.0',
       description: 'API documentation for Newsarc backend',
     },
     servers: [
-      { url: 'http://localhost:4000' }
+      { url: 'https://news-api.alat.cc' }
     ],
   },
   apis: ['./src/domain/user/*.ts', './src/domain/news/*.ts', './src/domain/scrapper/*.ts'],

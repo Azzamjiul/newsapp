@@ -19,7 +19,7 @@ const sendNotificationSchema = z.object({
 
 /**
  * @swagger
- * /users/notify:
+ * /api/users/notify:
  *   post:
  *     summary: Send push notification to a user
  *     tags:
@@ -68,7 +68,7 @@ export const sendNotification = asyncHandler(async (req: Request, res: Response)
 
 /**
  * @swagger
- * /users/device-tokens:
+ * /api/users/device-tokens:
  *   post:
  *     summary: Add a device token for the current user
  *     tags:
@@ -101,7 +101,7 @@ export const addDeviceToken = asyncHandler(async (req: Request, res: Response) =
 
 /**
  * @swagger
- * /users/device-tokens:
+ * /api/users/device-tokens:
  *   delete:
  *     summary: Remove a device token for the current user
  *     tags:
@@ -130,7 +130,7 @@ export const removeDeviceToken = asyncHandler(async (req: Request, res: Response
 
 /**
  * @swagger
- * /users/device-tokens:
+ * /api/users/device-tokens:
  *   get:
  *     summary: List all device tokens for the current user
  *     tags:
@@ -155,7 +155,7 @@ export const listDeviceTokens = asyncHandler(async (req: Request, res: Response)
 
 /**
  * @swagger
- * /users/device-tokens/notification:
+ * /api/users/device-tokens/notification:
  *   put:
  *     summary: Set notification enabled/disabled for the current user
  *     tags:
@@ -191,7 +191,7 @@ export const setNotificationEnabled = asyncHandler(async (req: Request, res: Res
 
 /**
  * @swagger
- * /users/device-tokens/notification:
+ * /api/users/device-tokens/notification:
  *   get:
  *     summary: Get notification enabled/disabled status for the current user
  *     tags:
