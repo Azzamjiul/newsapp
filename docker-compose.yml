@@ -7,7 +7,6 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
       - rabbitmq
     command: npm run start
     volumes:
@@ -21,7 +20,6 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
       - rabbitmq
     command: npm run consumers
     volumes:
@@ -40,7 +38,7 @@ services:
       RABBITMQ_DEFAULT_PASS: password
     networks:
       - infra_network
-      
+
 volumes:
   db_data:
 
